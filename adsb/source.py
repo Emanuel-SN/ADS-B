@@ -31,31 +31,13 @@ def messages():
     while True:
         try:
             with socket.create_connection((config.SBS_HOST, config.SBS_PORT), 5) as sock:
-                print(f"Connected to dump1090 at {config.SBS_HOST}:{config.SBS_PORT}")
                 with sock.makefile("r", encoding="utf-8") as stream:
                     for line in stream:
                         message = parse_message(line)
                         if message:
                             yield message
-            print("dump1090 stream closed; reconnecting shortly")
-        except OSError as error:
-            print("Waiting for dump1090:", error)
-        time.sleep(2)
-
-
-def messages():
-    while True:
-        try:
-            with socket.create_connection((config.SBS_HOST, config.SBS_PORT), 5) as sock:
-                print(f"Connected to dump1090 at {config.SBS_HOST}:{config.SBS_PORT}")
-                with sock.makefile("r", encoding="utf-8") as stream:
-                    for line in stream:
-                        message = parse_message(line)
-                        if message:
-                            yield message
-            print("dump1090 stream closed; reconnecting shortly")
-        except OSError as error:
-            print("Waiting for dump1090:", error)
+        except OSError:
+''            pass
         time.sleep(2)
 
 
