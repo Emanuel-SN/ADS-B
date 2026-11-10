@@ -5,7 +5,6 @@ import storage
 
 
 def parse_message(line):
-    """Pick the fields this project stores from one SBS MSG line."""
     columns = line.strip().split(",")
     if len(columns) < 16 or columns[0] != "MSG":
         return None
@@ -29,7 +28,6 @@ def parse_message(line):
 
 
 def messages():
-    """Yield messages from local dump1090; retry if its connection drops."""
     while True:
         try:
             with socket.create_connection((config.SBS_HOST, config.SBS_PORT), 5) as sock:
@@ -46,7 +44,6 @@ def messages():
 
 
 def messages():
-    """Yield messages from local dump1090; retry if its connection drops."""
     while True:
         try:
             with socket.create_connection((config.SBS_HOST, config.SBS_PORT), 5) as sock:
@@ -63,7 +60,6 @@ def messages():
 
 
 def save_messages():
-    """Keep saving messages while the main loop watches the GPIO pin."""
     for message in messages():
         try:
             storage.save_message(message)

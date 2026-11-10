@@ -1,4 +1,3 @@
-"""Send the text history when the GPIO input is triggered."""
 
 import time
 

@@ -13,7 +13,6 @@ _latest = {}
 
 
 def _record_from_line(line):
-    """Turn one pipe-separated line into a record dictionary."""
     if not line.strip() or line.startswith("#"):
         return None
     values = line.rstrip("\r\n").split("|")
@@ -23,7 +22,6 @@ def _record_from_line(line):
 
 
 def _clean(value):
-    """Keep each record on one line and preserve the text separator."""
     value = "" if value is None else str(value)
     return value.replace("|", " ").replace("\n", " ").replace("\r", " ")
 
@@ -33,7 +31,6 @@ def _write_header(file):
 
 
 def load_previous_values():
-    """Restore each aircraft's last known values from history.txt."""
     if not config.HISTORY_FILE.exists():
         return
 
@@ -45,7 +42,6 @@ def load_previous_values():
 
 
 def save_message(message):
-    """Merge one SBS message into the plane record and append a text line."""
     hex_address = message["hex"]
 
     with _lock:
@@ -73,7 +69,6 @@ def save_message(message):
 
 
 def read_history():
-    """Read the text history for serial transmission."""
     if not config.HISTORY_FILE.exists():
         return []
 
@@ -87,7 +82,6 @@ def read_history():
 
 
 def remove_old_rows(now=None):
-    """Keep only text records within the configured number of days."""
     if config.KEEP_DAYS <= 0 or not config.HISTORY_FILE.exists():
         return
 
