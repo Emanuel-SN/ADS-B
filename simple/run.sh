@@ -1,14 +1,9 @@
-#!/bin/bash
-cd "$(dirname "$0")"
+pkill dump1090
+sleep 3
 
-# Stop a leftover decoder so it does not hold the SDR dongle.
-pkill dump1090 2>/dev/null
-sleep 1
-
-# Start the local antirez/dump1090 decoder.
-./dump1090/dump1090 --net > /dev/null 2>&1 &
-DUMP_PID=$!
-trap 'echo "stopping..."; kill "$DUMP_PID" 2>/dev/null' EXIT
+./dump1090/dump1090 --net &
 
 sleep 3
 python3 main.py
+
+pkill dump1090
