@@ -7,7 +7,6 @@ from gpiozero import DigitalInputDevice
 
 import config
 import storage
-from adsb_source import messages
 from sender import send_history
 
 def parse_message(line):
