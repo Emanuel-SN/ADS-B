@@ -14,7 +14,7 @@ from source import save_messages
 def read_terminal_commands(commands):
     while True:
         try:
-            command = input("Command (send!): ").strip().lower()
+            command = input("").strip().lower()
         except EOFError:
             return
 
