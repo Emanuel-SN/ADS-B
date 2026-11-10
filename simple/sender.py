@@ -16,13 +16,13 @@ def send_history():
         with serial.Serial(config.SERIAL_PORT, config.SERIAL_BAUD, timeout=1) as port:
             port.reset_input_buffer()
             for row in rows:
-                values = [row.get(name, "") or "" for name in config.SERIAL_COLUMNS]
-                line = config.SERIAL_SEPARATOR.join(values) + "\n"
+                values = [row.get(name, "") or "" for name in ("time", "hex", "flight", "alt", "gs", "track", "lat", "lon")]
+                line = "|".join(values) + "\n"
                 port.write(line.encode())
                 sent += 1
                 time.sleep(0.02)
 
-            port.write((config.SERIAL_END_MARKER + "\n").encode())
+            port.write(("END" + "\n").encode())
             print(f"Sent {sent} rows")
 
             deadline = time.time() + 3

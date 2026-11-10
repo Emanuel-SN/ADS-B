@@ -1,4 +1,3 @@
-"""Save aircraft observations as readable lines in history.txt."""
 
 import os
 import threading
@@ -17,7 +16,7 @@ def _record_from_line(line):
     """Turn one pipe-separated line into a record dictionary."""
     if not line.strip() or line.startswith("#"):
         return None
-    values = line.rstrip("\r\n").split(config.HISTORY_SEPARATOR)
+    values = line.rstrip("\r\n").split("|")
     if len(values) != len(COLUMNS):
         return None
     return dict(zip(COLUMNS, values))
@@ -26,11 +25,11 @@ def _record_from_line(line):
 def _clean(value):
     """Keep each record on one line and preserve the text separator."""
     value = "" if value is None else str(value)
-    return value.replace(config.HISTORY_SEPARATOR, " ").replace("\n", " ").replace("\r", " ")
+    return value.replace("|", " ").replace("\n", " ").replace("\r", " ")
 
 
 def _write_header(file):
-    file.write("#" + config.HISTORY_SEPARATOR.join(COLUMNS) + "\n")
+    file.write("#" + "|".join(COLUMNS) + "\n")
 
 
 def load_previous_values():
@@ -67,7 +66,7 @@ def save_message(message):
         with config.HISTORY_FILE.open("a", encoding="utf-8") as file:
             if is_new_file:
                 _write_header(file)
-            line = config.HISTORY_SEPARATOR.join(
+            line = "|".join(
                 _clean(record[column]) for column in COLUMNS
             )
             file.write(line + "\n")
