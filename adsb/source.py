@@ -37,7 +37,7 @@ def messages():
                         if message:
                             yield message
         except OSError:
-''            pass
+            pass
         time.sleep(2)
 
 
